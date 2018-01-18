@@ -1,8 +1,8 @@
 // config options per service are as per: DeployOptions.java
 {
-  "environment": "testing",
-  "services": ["com.deblox.myproject.Pinger", "com.deblox.QueryConsumer"],
-  "com.deblox.myproject.Pinger": {
+  "conf_source": "main/resources",
+  "services": ["com.deblox.myproject.PingVerticle"],
+  "com.deblox.myproject.PingVerticle": {
     "config": {
       "foo": "bar",
       "baz": {}

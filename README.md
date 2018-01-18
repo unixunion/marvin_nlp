@@ -1,6 +1,130 @@
-# deBlox Vert.x 3 template v1.0.0
-a modified version of [vertx-gradle-template](https://github.com/vert-x/vertx-gradle-template). This template also contains
-a few starting points for building simple web stack.
+# Marvin
+
+Marvin is a NLP Bot / Helpdesk
+
+## pre-reqs
+
+```sh
+conda create -n py36-marvin python=3.6
+conda activate py36-marvin
+pip install rasa_nlu scipy duckling 
+pip install git+https://github.com/mit-nlp/MITIE.git
+pip install -U sklearn-crfsuite
+pip install spacy scikit-learn
+```
+
+## Training base model and running rasa
+
+```sh
+python -m rasa_nlu.train -c  config_spacy.json --fixed_model_name=fallback
+python -m rasa_nlu.server -c config_spacy.json
+```
+
+## entity extraction and ducks
+
+```json
+    "entities": [
+        {
+            "start": 8,
+            "end": 15,
+            "value": "chinese",
+            "entity": "cuisine",
+            "extractor": "ner_crf",
+            "processors": [
+                "ner_synonyms"
+            ]
+        }
+    ],
+    
+    "entities": [
+        {
+            "start": 33,
+            "end": 34,
+            "text": "8",
+            "value": 8.0,
+            "additional_info": {
+                "value": 8.0
+            },
+            "entity": "number",
+            "extractor": "ner_duckling"
+        },
+        {
+            "start": 33,
+            "end": 34,
+            "text": "8",
+            "value": 8.0,
+            "additional_info": {
+                "value": 8.0,
+                "unit": null
+            },
+            "entity": "distance",
+            "extractor": "ner_duckling"
+        },
+        {
+            "start": 33,
+            "end": 34,
+            "text": "8",
+            "value": 8.0,
+            "additional_info": {
+                "value": 8.0,
+                "unit": null,
+                "latent": true
+            },
+            "entity": "volume",
+            "extractor": "ner_duckling"
+        },
+        {
+            "start": 33,
+            "end": 34,
+            "text": "8",
+            "value": 8.0,
+            "additional_info": {
+                "value": 8.0,
+                "unit": null
+            },
+            "entity": "temperature",
+            "extractor": "ner_duckling"
+        },
+        {
+            "start": 33,
+            "end": 36,
+            "text": "8pm",
+            "value": "2018-01-17T20:00:00.000Z",
+            "additional_info": {
+                "value": "2018-01-17T20:00:00.000Z",
+                "grain": "hour",
+                "others": [
+                    {
+                        "grain": "hour",
+                        "value": "2018-01-17T20:00:00.000Z"
+                    },
+                    {
+                        "grain": "hour",
+                        "value": "2018-01-18T20:00:00.000Z"
+                    },
+                    {
+                        "grain": "hour",
+                        "value": "2018-01-19T20:00:00.000Z"
+                    }
+                ]
+            },
+            "entity": "time",
+            "extractor": "ner_duckling"
+        },
+        {
+            "start": 8,
+            "end": 15,
+            "value": "chinese",
+            "entity": "cuisine",
+            "extractor": "ner_crf",
+            "processors": [
+                "ner_synonyms"
+            ]
+        }
+    
+    
+```
+
 
 ## features
 * Vert.x 3.4.1
@@ -50,8 +174,20 @@ to generate the idea files
 
 ## testing
 
+### all tests
 ```sh
 ./gradlew test -i
+```
+
+### single test
+
+```sh
+gradle test --tests "org.gradle.SomeTest.someSpecificFeature"
+gradle test --tests "*SomeTest.someSpecificFeature"
+gradle test --tests "*SomeSpecificTest"
+gradle test --tests "all.in.specific.package*"
+gradle test --tests "*IntegTest"
+gradle test --tests "*IntegTest*ui*"
 ```
 
 ## running from Idea

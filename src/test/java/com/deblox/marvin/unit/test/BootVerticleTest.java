@@ -1,4 +1,4 @@
-package com.deblox.myproject.unit.test;
+package com.deblox.marvin.unit.test;
 
 import com.deblox.Util;
 
@@ -13,7 +13,6 @@ import io.vertx.ext.unit.junit.VertxUnitRunner;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -59,20 +58,6 @@ public class BootVerticleTest {
     });
   }
 
-//  @After
-//  public void after(TestContext context) {
-//    logger.info("@After");
-//    Async async = context.async();
-//
-//    // the correct way after next release
-//    //vertx.close(context.assertAsyncSuccess());
-//
-//    vertx.close( event ->
-//    {
-//      async.complete();
-//    });
-//  }
-
   @Test
   public void test(TestContext test) {
     Async async = test.async();
@@ -84,6 +69,19 @@ public class BootVerticleTest {
         test.fail();
       }
     });
+  }
 
+  @Test
+  public void testQuery(TestContext test) {
+    Async async = test.async();
+    logger.info("sending query");
+    eb.send("query", "show me chinese restaurants", reply -> {
+      if (reply.succeeded()) {
+        logger.info(reply.result().body());
+        async.complete();
+      } else {
+        test.fail();
+      }
+    });
   }
 }

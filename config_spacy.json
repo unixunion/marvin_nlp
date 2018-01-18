@@ -1,0 +1,5 @@
+{
+  "pipeline": ["nlp_spacy", "tokenizer_spacy", "intent_entity_featurizer_regex", "intent_featurizer_spacy", "ner_duckling", "ner_crf", "ner_synonyms",  "intent_classifier_sklearn"],
+  "path" : "./nlu_models",
+  "data" : "./src/test/resources/training.json"
+}

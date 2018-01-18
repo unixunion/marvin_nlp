@@ -1,4 +1,4 @@
-package com.deblox.myproject.unit.test;
+package com.deblox.marvin.unit.test;
 
 import com.deblox.myproject.Pinger;
 import io.vertx.core.Vertx;
