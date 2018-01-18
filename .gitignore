@@ -13,11 +13,11 @@ out
 *.iml
 *.ipr
 *.iws
-test-output
+text-output
 Scratch.java
 ScratchTest.java
-test-results
-test-tmp
+text-results
+text-tmp
 *.class
 mods
 vertx_classpath.txt
