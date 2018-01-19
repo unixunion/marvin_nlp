@@ -3,6 +3,7 @@ package com.deblox.marvin.unit.test;
 import com.deblox.JsonUtils;
 import com.deblox.QueryConsumer;
 import com.deblox.rasa.RasaResponse;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.logging.Logger;
@@ -222,12 +223,13 @@ public class SerializerTests {
 
     @Before
     public void before(TestContext test) {
+        Async async = test.async();
         vertx = Vertx.vertx();
         eb = vertx.eventBus();
 
-        vertx.deployVerticle(QueryConsumer.class.getName(), res -> {
+        vertx.deployVerticle(QueryConsumer.class.getName(),new DeploymentOptions(), res -> {
             if (res.succeeded()) {
-                test.async().complete();
+                async.complete();
             }
         });
 
@@ -258,6 +260,21 @@ public class SerializerTests {
     public void testQueryResponsJson(TestContext test) {
         Async async = test.async();
         eb.send("query", "show me chinese restaurants", resp -> {
+            if (resp.succeeded()) {
+                logger.info(resp.result().body());
+                test.assertEquals(resp.result().body().toString(), "{\"intent\": {\"name\": \"restaurant_search\", \"confidence\": 0.7726615901122014}, \"entities\": [{\"start\": 8, \"end\": 15, \"value\": \"chinese\", \"entity\": \"cuisine\", \"extractor\": \"ner_crf\", \"processors\": [\"ner_synonyms\"]}], \"intent_ranking\": [{\"name\": \"restaurant_search\", \"confidence\": 0.7726615901122014}, {\"name\": \"affirm\", \"confidence\": 0.1124034184093516}, {\"name\": \"greet\", \"confidence\": 0.06793227546218214}, {\"name\": \"goodbye\", \"confidence\": 0.04700271601626486}], \"text\": \"show me chinese restaurants\"}");
+                async.complete();
+            } else {
+                logger.info("error sending to query listener");
+                test.fail();
+            }
+        });
+    }
+
+    @Test
+    public void testQueryResponsJson2(TestContext test) {
+        Async async = test.async();
+        eb.send("query", "show me a mexican place in the centre", resp -> {
             if (resp.succeeded()) {
                 logger.info(resp.result().body());
                 test.assertEquals(resp.result().body().toString(), "{\"intent\": {\"name\": \"restaurant_search\", \"confidence\": 0.7726615901122014}, \"entities\": [{\"start\": 8, \"end\": 15, \"value\": \"chinese\", \"entity\": \"cuisine\", \"extractor\": \"ner_crf\", \"processors\": [\"ner_synonyms\"]}], \"intent_ranking\": [{\"name\": \"restaurant_search\", \"confidence\": 0.7726615901122014}, {\"name\": \"affirm\", \"confidence\": 0.1124034184093516}, {\"name\": \"greet\", \"confidence\": 0.06793227546218214}, {\"name\": \"goodbye\", \"confidence\": 0.04700271601626486}], \"text\": \"show me chinese restaurants\"}");

@@ -9,11 +9,18 @@
     "entity_synonyms": [
       {
         "value": "chinese",
-        "synonyms": ["Chinese", "Chines", "chines"]
+        "synonyms": [
+          "Chinese",
+          "Chines",
+          "chines"
+        ]
       },
       {
         "value": "vegetarian",
-        "synonyms": ["veggie", "vegg"]
+        "synonyms": [
+          "veggie",
+          "vegg"
+        ]
       }
     ],
     "common_examples": [
@@ -198,7 +205,8 @@
             "entity": "cuisine"
           }
         ]
-      },     {
+      },
+      {
         "text": "search for restaurants",
         "intent": "restaurant_search",
         "entities": []
@@ -320,6 +328,24 @@
         "text": "have a good one",
         "intent": "goodbye",
         "entities": []
+      },
+      {
+        "text": "show me a spanish restaurant in the south",
+        "intent": "restaurant_search",
+        "entities": [
+          {
+            "start": 10,
+            "end": 17,
+            "value": "spanish",
+            "entity": "cuisine"
+          },
+          {
+            "start": 36,
+            "end": 41,
+            "value": "south",
+            "entity": "location"
+          }
+        ]
       }
     ]
   }

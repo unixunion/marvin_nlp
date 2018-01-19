@@ -8,10 +8,16 @@ import java.io.Serializable;
 /**
  * Created by keghol on 2018-01-17.
  */
-public class RasaEntity implements Serializable {
+public class RasaEntity<T> implements Serializable {
+
+    private String type = "RasaEntity";
+
     private int start;
     private int end;
-    private String value;
+
+//    @SkipDeserialization
+    private T value;
+
     private String extractor;
     private String[] processors;
     private String entity;
@@ -21,13 +27,10 @@ public class RasaEntity implements Serializable {
 
     // -- constructors --//
 
-    public RasaEntity(int start, int end, String value, String extractor, String[] processors, String entity) {
-        this.start = start;
-        this.end = end;
-        this.value = value;
-        this.extractor = extractor;
-        this.processors = processors;
-        this.entity = entity;
+    public RasaEntity RasaEntity(T value) {
+        RasaEntity re = new RasaEntity();
+        re.setValue(value);
+        return this;
     }
 
     // -- methods -- //
@@ -54,11 +57,11 @@ public class RasaEntity implements Serializable {
         this.end = end;
     }
 
-    public String getValue() {
+    public T getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(T value) {
         this.value = value;
     }
 

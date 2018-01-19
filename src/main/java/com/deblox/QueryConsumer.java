@@ -36,8 +36,6 @@ public class QueryConsumer extends AbstractVerticle implements Handler<Message> 
             this.handle(r);
         });
 
-//        eb.consumer("query");
-
         logger.info("Listening on 'query'");
 
         vertx.setTimer(5000, t-> {

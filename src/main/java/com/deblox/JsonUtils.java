@@ -26,14 +26,11 @@
 package com.deblox;
 
 
-import com.deblox.rasa.EnumLowercaseSerializer;
-import com.deblox.rasa.RasaResponse;
-import com.deblox.rasa.RasaResponseDeserializer;
+import com.deblox.myproject.TestDeserializer;
+import com.deblox.myproject.TestEntity;
+import com.deblox.rasa.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-
-
 
 
 /**
@@ -63,7 +60,9 @@ public class JsonUtils {
 			GsonBuilder builder = new GsonBuilder();
 			// Serializes enums as lower-case.
 			builder.registerTypeHierarchyAdapter(Enum.class, new EnumLowercaseSerializer());
-			builder.registerTypeAdapter(RasaResponse.class, new RasaResponseDeserializer());
+//			builder.registerTypeAdapter(RasaResponse.class, new RasaResponseDeserializer());
+            builder.registerTypeAdapter(TestEntity.class, new TestDeserializer());
+//            builder.registerTypeAdapter(RasaEntity.class, new RasaEntityDeserializer());
 			gson = builder.create();
 		}
 		return gson;
