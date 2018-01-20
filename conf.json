@@ -2,7 +2,10 @@
 {
   "conf_source": "tld",
   "services": [
-    "com.deblox.myproject.Pinger"
+    "com.deblox.servers.QueryConsumer",
+    "com.deblox.servers.DiscordBot",
+    "com.deblox.intents.HelloIntent",
+    "com.deblox.servers.ApiServer"
   ],
   "com.deblox.myproject.Pinger": {
     "config": {

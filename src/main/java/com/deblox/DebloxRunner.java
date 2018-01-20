@@ -32,6 +32,7 @@ import java.util.function.Consumer;
 public class DebloxRunner {
 
   private static final Logger logger = LoggerFactory.getLogger(DebloxRunner.class);
+  private static final String WEB_EXAMPLES_JAVA_DIR = "/src/main/java/";
 
   public static void runJava(String prefix, Class clazz, boolean clustered, String confFile) {
     runJava(prefix, clazz, new VertxOptions().setClustered(clustered), confFile);
@@ -51,6 +52,11 @@ public class DebloxRunner {
     String dirPart = file.getParent();
     String scriptDir = prefix + dirPart;
     DebloxRunner.run(scriptDir, scriptDir + "/" + file.getName(), clustered);
+  }
+
+
+  public static void runExample(Class clazz) {
+    runJava(WEB_EXAMPLES_JAVA_DIR, clazz, new VertxOptions().setClustered(false), null);
   }
 
 //  public static void runScript(String prefix, String scriptName, VertxOptions options) {

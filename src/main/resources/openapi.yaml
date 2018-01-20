@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Intent Engine
+  license:
+    name: MIT
+servers:
+  - url: http://localhost/v1
+paths:
+  /query:
+    post:
+      summary: Query
+      operationId: query
+      tags:
+        - query
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Query"
+      responses:
+        201:
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Query:
+      type: object
+      required:
+        - queryString
+        - context
+      properties:
+        queryString:
+          type: string
+        context:
+          type: string
+        tag:
+          type: string
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
+      openIdConnectUrl: "http://www.example.com" # I don't know why but this parameter is required even if type is basic or apiKey. I think It's OAS bug

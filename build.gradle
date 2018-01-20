@@ -1,8 +1,21 @@
 plugins {
+    id 'application'
     id 'java'
     id 'com.github.johnrengelman.shadow' version '2.0.2'
     id 'idea'
     id 'groovy'
+    id "com.jfrog.bintray" version "1.7.3"
+}
+
+mainClassName = 'io.vertx.core.Launcher'
+
+def mainVerticleName = 'com.deblox.Boot'
+def watchForChange = 'src/**/*'
+def doOnChange = './gradlew classes'
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
 }
 
 if (!JavaVersion.current().java8Compatible) {
@@ -13,10 +26,17 @@ if (!JavaVersion.current().java8Compatible) {
 }
 
 repositories {
+
     mavenLocal()
     mavenCentral()
     maven {
         url = 'http://oss.sonatype.org/content/repositories/snapshots/'
+    }
+    maven {
+        url = "https://jitpack.io"
+    }
+    maven {
+        url = "http://jcenter.bintray.com"
     }
 }
 
@@ -31,10 +51,12 @@ dependencies {
     compile "io.vertx:vertx-auth-common:$vertxVersion"
     compile "io.vertx:vertx-core:$vertxVersion"
     compile "io.vertx:vertx-web:$vertxVersion"
+    compile "com.github.austinv11:Discord4J:2.9.3"
     compile "io.vertx:vertx-codegen:$vertxVersion"
     compile "ch.qos.logback:logback-classic:$logbackVersion"
     compile "net.sourceforge.argparse4j:argparse4j:$argparseVersion"
     compile "io.vertx:vertx-web-client:$vertxVersion"
+    compile "io.vertx:vertx-web-api-contract:$vertxVersion"
     testCompile "junit:junit:$junitVersion"
     testCompile "io.vertx:vertx-unit:$vertxVersion"
 }
@@ -56,6 +78,10 @@ shadowJar {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.4'
+}
+
+run {
+    args = ['run', mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$mainClassName", "--on-redeploy=$doOnChange", "-conf conf.json"]
 }
 
 test.outputs.upToDateWhen { false }
